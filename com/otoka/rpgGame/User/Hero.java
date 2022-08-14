@@ -1,27 +1,41 @@
 package com.otoka.rpgGame.User;
-import com.otoka.rpgGame.IUser;
+import com.otoka.rpgGame.AUser;
+import com.otoka.rpgGame.Wepon.Sword;
+import com.otoka.rpgGame.AMonster;
 
-public class Hero implements IUser {
-  private String name;
-  private int hp;
+public class Hero extends AUser {
+  public Hero(String name) {
+    super(name, 100);
+  }
   
+  public Hero() {
+    this("ダミー");;
+  }
+  
+  @Override
   public void setName(String name) {
     this.name = name;
   }
-  
+  @Override
   public String getName() {
     return this.name;
   }
-  
+  @Override
   public void setHp(int hp) {
     this.hp = hp;
   }
+  @Override
   public int getHp() {
     return this.hp;
   }
   
-  public void attack() {
+  public void attack(AMonster monster) {
+    Sword sword = new Sword();
+    int enemyLife = monster.getHp();
     
+    enemyLife -= sword.getDamage();
+    monster.setHp(enemyLife);
+    System.out.println(this.name + "は、" + sword.getName() + "で攻撃した！");
   }
   public void sleep() {
     this.hp = 100;
