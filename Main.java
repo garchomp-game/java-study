@@ -1,11 +1,16 @@
-import java.util.*;
-import java.util.Map.Entry;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.text.*;
 import java.io.*;
-public class Main {
-  public static void main(String[] args) throws Exception {
-    System.out.println("Hello world");
+import java.util.*;
+import javax.servlet.http.*;
+
+@WebServlet("/HelloServlet")
+public class Main extends HttpServlet {
+  public void doGet(HttpServletRequest req,
+    HttpServletResponse res) throws IOException {
+    Date d = new Date();
+    PrintWrite w = res.getWriter();
+    res.setContentTpe("text/html");
+    w.write("<html><body>");
+    w.write("today is " + d.toStrint());
+    w.write("</body></html>");
   }
 }
