@@ -1,3 +1,3 @@
-*.class
-/authorized_keys
-/gs-consuming-rest
+
+.git
+gradle

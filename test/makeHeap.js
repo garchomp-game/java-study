@@ -1,69 +1,50 @@
-//基本情報技術者試験　平成30年春期問8 heapSort
-var data = [5, 13, 36, 8, 2, 2, 34, 63];
-var heap = [];
+//基本情報技術者試験　平成30年春期問8 makeHeap
+var data = [5, 13, 36, 8, 2, 2, 34, 63, 32, 1, 23, 9, 16, 24, 54];
+var heap = new Array(15);
 var hnum = data.length;
-
-heapSort(data, heap, hnum);
-
-console.log("heapSort実行後の配列 => [" + heap + "]");
-
-function heapSort(data, heap, hnum) {
-  var last;
-  makeHeap(data, heap, hnum);
-  for (last = hnum - 1; last > 0; last--) {
-    swap(heap, 0, last);
-    output(heap, last);
-    downHeap(heap, last - 1);
-  }
-}
-function downHeap(heap, hlast) {
-  var n, tmp;
-  n = 0;
-  while (lchild(n) <= hlast) {
-    tmp = lchild(n);
-    if (rchild(n) <= hlast)
-      if (heap[tmp] <= heap[rchild(n)])
-        tmp = rchild(n);
-    if (heap[tmp] > heap[n])
-      swap(heap, n, tmp);
-    else return;
-    n = tmp;
-  }
-}
+makeHeap(data, heap, hnum);
+showHeap();
 function makeHeap(data, heap, hnum) {
-  var i, k;
-  for (i = 0; i < hnum; i++) {
-    heap[i] = data[i];
-    k = i;
-    while (k > 0)
-      if (heap[k] > heap[parent(k)]) {
-        swap(heap, k, parent(k));
-        k = parent(k);
-      } else break;
-  }
+    var i, k;
+    for (i = 0; i < hnum; i++) {
+        heap[i] = data[i]; // 二分木に追加
+        k = i;
+        while (k > 0) // 二分木の根の要素が最小になるまで繰り返す
+            if (heap[k] > heap[myParent(k)]) {
+                swap(heap, k, myParent(k));
+                k = myParent(k);
+            }
+            else
+                break; // 二分木に追加するフェーズに戻る
+    }
 }
 function swap(heap, i, j) {
-  var tmp;
-  tmp = heap[i];
-  heap[i] = heap[j];
-  heap[j] = tmp;
+    var tmp;
+    tmp = heap[i];
+    heap[i] = heap[j];
+    heap[j] = tmp;
 }
-
 function lchild(i) {
-  return 2 * i + 1;
+    return 2 * i + 1;
 }
-
 function rchild(i) {
-  return 2 * i + 2;
+    return 2 * i + 2;
 }
-
-function parent(i) {
-  return Math.floor((i - 1) / 2);
+function myParent(i) {
+    return Math.floor((i - 1) / 2);
 }
-
-function output(heap, last) {
-    console.log(
-      "last=" + last + ";downHeap開始前の配列");
-      console.log(`${heap}`);
-      console.log();
+function showHeap() {
+    console.log("\u6574\u5217\u5F8C\u306E\u914D\u5217 => [".concat(heap, "]"));
+    //木構造として整形して出力
+    var tree = heap[0] + "\n";
+    var j = 1;
+    while (heap[Math.pow(2, j) - 1]) {
+        tree +=
+            heap
+                .slice(Math.pow(2, j) - 1, Math.pow(2, j + 1) - 1)
+                .toString() + "\n";
+        j++;
+    }
+    console.log("木構造");
+    console.log(tree);
 }
